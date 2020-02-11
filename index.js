@@ -38,6 +38,5 @@ const PORT = process.env.PORT || config.PORT;
 })();
 
 app.get('/', (req, res) => {
-    console.log('ok');
     res.render('index.html');
 });
