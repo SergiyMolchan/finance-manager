@@ -17,7 +17,7 @@ export default function auth(state = initialState, action){
             }
         case REGISTRATION_ERROR:
             return{
-                ...state, error: action.error
+                ...state, loading: false, error: action.error
             }
 
         default:

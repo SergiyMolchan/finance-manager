@@ -10,8 +10,10 @@ import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
-import {validFormCreator, validFieldCreator,isRequiredFieldCreator, minLengthCreator, maxLengthCreator, repeatPasswordCreator} from '../tools/validators';
-import {registration} from '../actions/registration';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
+import {validFormCreator, validFieldCreator,isRequiredFieldCreator, minLengthCreator, maxLengthCreator, repeatPasswordCreator} from '../../tools/validators';
+import {registration} from '../../actions/registration';
 
 const useStyles = makeStyles(
   theme => ({
@@ -20,7 +22,8 @@ const useStyles = makeStyles(
       maxWidth: 760,
       width: '100%',
       textAlign: 'center',
-      margin: '0px 10px'
+      margin: '0px 10px',
+      padding: '10px 0px'
     },
     wrapper: {
       width: '100%',
@@ -44,7 +47,7 @@ const useStyles = makeStyles(
     },
   }));
 
-function Registration() {
+function Registration(props) {
   const classes = useStyles();
   const [login = '', setLogin] = useState();
   const [password  = '', setPassword] = useState();
@@ -56,13 +59,14 @@ function Registration() {
   const isReqiredLogin = isRequiredFieldCreator(login);
   const isReqiredPassword = isRequiredFieldCreator(password);
   const isReqiredRepeatPassword = isRequiredFieldCreator(repeatPassword);
-  const minLength5 = minLengthCreator(5);
+  const minLength6 = minLengthCreator(6);
   const maxLenght30 = maxLengthCreator(30);
   const repeatPasswordValidator = repeatPasswordCreator(password, repeatPassword);
-  const validFieldLogin = validFieldCreator([isReqiredLogin(), minLength5(login), maxLenght30(login)]);
-  const validFieldPassword = validFieldCreator([isReqiredPassword(), minLength5(password), maxLenght30(password)]);
+  const validFieldLogin = validFieldCreator([isReqiredLogin(), minLength6(login), maxLenght30(login)]);
+  const validFieldPassword = validFieldCreator([isReqiredPassword(), minLength6(password), maxLenght30(password)]);
   const validFieldRepeatPassword = validFieldCreator([isReqiredRepeatPassword(), repeatPasswordValidator()]);
   const isValidRegistrationForm = validFormCreator([validFieldLogin(true), validFieldPassword(true), validFieldRepeatPassword(true)]);
+  
   return (
     <div className={classes.wrapper}>
       <Card className={classes.root}>
@@ -70,6 +74,7 @@ function Registration() {
             title="Registration"
             subheader="Create new account"
         />
+        {props.loading === true ? <LinearProgress/> : false}
         <CardActions>
           <form className={classes.root} noValidate autoComplete="off">
             <TextField
@@ -132,6 +137,7 @@ function Registration() {
             />
 
             <Button
+              onClick={() => props.registration(login, password, repeatPassword)}
               variant="contained"
               color="primary"
               className={classes.button}
@@ -142,6 +148,7 @@ function Registration() {
             </Button>
           </form>
         </CardActions>
+        {!!props.error ? <Typography variant="body1" color="error">{props.error}</Typography> : false}
       </Card>
     </div>
   );
@@ -156,7 +163,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return{
-    registration: (login, password) => dispatch(registration(login, password)),
+    registration: (login, password, repeatPassword) => dispatch(registration(login, password, repeatPassword)),
   }
 }
 

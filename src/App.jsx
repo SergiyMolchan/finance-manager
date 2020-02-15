@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter, Switch, Route, Redirect, NavLink, Router} from 'react-router-dom';
 import {connect} from 'react-redux';
 import NavTabs from './components/NavTabs';
-import Registration from './components/Registration';
+import Registration from './components/Auth/Registration';
 
 function AccessRoutes(props){
   if(props.isAuth){
