@@ -12,8 +12,9 @@ import LockIcon from '@material-ui/icons/Lock';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
+import ThunkItRegistration from './ThunkItRegistration';
 import {validFormCreator, validFieldCreator,isRequiredFieldCreator, minLengthCreator, maxLengthCreator, repeatPasswordCreator} from '../../tools/validators';
-import {registration} from '../../actions/registration';
+import {registration, registration_new} from '../../actions/registration';
 
 const useStyles = makeStyles(
   theme => ({
@@ -67,6 +68,9 @@ function Registration(props) {
   const validFieldRepeatPassword = validFieldCreator([isReqiredRepeatPassword(), repeatPasswordValidator()]);
   const isValidRegistrationForm = validFormCreator([validFieldLogin(true), validFieldPassword(true), validFieldRepeatPassword(true)]);
   
+  if(props.registered){
+    return <ThunkItRegistration onNewAccount={() => props.newRegistration()}/>
+  } else {
   return (
     <div className={classes.wrapper}>
       <Card className={classes.root}>
@@ -151,19 +155,21 @@ function Registration(props) {
         {!!props.error ? <Typography variant="body1" color="error">{props.error}</Typography> : false}
       </Card>
     </div>
-  );
+  )}
 }
 
 function mapStateToProps(state){
   return{
     error: state.registration.error,
-    loading: state.registration.loading
+    loading: state.registration.loading,
+    registered: state.registration.registered
   }
 }
 
 function mapDispatchToProps(dispatch){
   return{
     registration: (login, password, repeatPassword) => dispatch(registration(login, password, repeatPassword)),
+    newRegistration: () => dispatch(registration_new())
   }
 }
 

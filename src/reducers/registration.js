@@ -1,8 +1,9 @@
-import {REGISTRATION_START, REGISTRATION_SUCCESS, REGISTRATION_ERROR} from '../actions/actionsTypes';
+import {REGISTRATION_START, REGISTRATION_SUCCESS, REGISTRATION_ERROR, REGISTRATION_NEW} from '../actions/actionsTypes';
 
 const initialState = {
     error: null,
-    loading: false
+    loading: false,
+    registered: false
 }
 
 export default function auth(state = initialState, action){
@@ -13,13 +14,16 @@ export default function auth(state = initialState, action){
             }
         case REGISTRATION_SUCCESS:
             return{
-                ...state, loading: false
+                ...state, loading: false, registered: action.registered
             }
         case REGISTRATION_ERROR:
             return{
                 ...state, loading: false, error: action.error
             }
-
+        case REGISTRATION_NEW:
+            return{
+                ...state, registered: false
+            }
         default:
             return state
     }

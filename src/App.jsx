@@ -3,38 +3,34 @@ import {BrowserRouter, Switch, Route, Redirect, NavLink, Router} from 'react-rou
 import {connect} from 'react-redux';
 import NavTabs from './components/NavTabs';
 import Registration from './components/Auth/Registration';
-
-function AccessRoutes(props){
-  if(props.isAuth){
-    return(
-      <Switch>
-        <Route path='/' exact component={() => <p>page</p>}/>
-        <Redirect to='/'/>
-      </Switch>
-    )
-  } else {
-    return (
-      <Switch>
-        <Route path='/login' component={() => <p>login</p>}/>
-        <Route path='/registration' component={Registration}/>
-        <Redirect to='/registration'/>
-      </Switch>
-    );
-  }
-}
+import Authorization from './components/Auth/Authorization';
 
 function App(props) {
   return(
     <BrowserRouter>
       <NavTabs/>
-      <AccessRoutes/>
+      <Switch>
+      {
+        props.isAuth ?
+        <>
+          <Route path='/' exact component={() => <p>page</p>}/>
+          <Redirect to='/'/>
+        </> 
+        : 
+        <>
+          <Route path='/login' component={Authorization}/>
+          <Route path='/registration' component={Registration}/>
+          <Redirect to='/registration'/>
+        </>     
+      }
+      </Switch>
     </BrowserRouter>
   )
 }
 
 function mapStateToProps(state){
   return{
-    isAuth: !!state.auth.token
+    isAuth: !!state.auth.token,
   }
 }
 

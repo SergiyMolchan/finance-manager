@@ -1,4 +1,4 @@
-import {REGISTRATION_START, REGISTRATION_SUCCESS, REGISTRATION_ERROR} from './actionsTypes';
+import {REGISTRATION_START, REGISTRATION_SUCCESS, REGISTRATION_ERROR, REGISTRATION_NEW} from './actionsTypes';
 
 export function registration(login, password, repeatPassword){
     return async dispatch => {
@@ -16,6 +16,7 @@ export function registration(login, password, repeatPassword){
               const json = await res.json();
               if(res.status === 201){
                 dispatch(registration_saccess());
+                dispatch(registration_error(null));
                 console.info(json.message)
               }
               if(res.status === 409){
@@ -38,7 +39,8 @@ export function registration_start(){
 export function registration_saccess(){
     return{
         type: REGISTRATION_SUCCESS,
-        loading: false
+        loading: false,
+        registered: true
     }
 }
 
@@ -47,5 +49,12 @@ export function registration_error(error){
         type: REGISTRATION_ERROR,
         loading: false,
         error: error,
+    }
+}
+
+export function registration_new(){
+    return{
+        type: REGISTRATION_NEW,
+        registered: false
     }
 }
