@@ -16,7 +16,7 @@ export function Authorization(login, password){
           const json = await res.json();
           
           if(res.status === 200){
-            const expirationDate = new Date(new Date().getTime() + 20 * 1000); //json.timeLifeOfToken
+            const expirationDate = new Date(new Date().getTime() + json.timeLifeOfToken * 1000);
             localStorage.setItem('jwt-token', json.token);
             localStorage.setItem('expirationDate', expirationDate);
             dispatch(auth_saccess(json.token));
@@ -55,6 +55,23 @@ export function auth_error(error){
     }
 }
 
+export function autoLogin(){
+    return dispatch => {
+        const token = localStorage.getItem('jwt-token');
+        if(token){
+            const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            if(expirationDate <= new Date()){
+                dispatch(logout());
+            } else {
+                dispatch(auth_saccess(token));
+                dispatch(autoLogout((expirationDate.getTime() - new Date()) / 1000));
+            }
+        } else {
+            dispatch(logout());
+        }
+    }
+} 
+
 export function logout(){
     localStorage.removeItem('jwt-token');
     localStorage.removeItem('expirationDate');
@@ -62,6 +79,7 @@ export function logout(){
         type: AUTH_LOGOUT
     }
 }
+
 export function autoLogout(time){
     return dispatch => {
         setTimeout(() => {
