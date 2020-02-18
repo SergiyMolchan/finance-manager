@@ -38,12 +38,12 @@ function NavTabs(props) {
             {
               props.isAuth ?
               <>
-                <Button color="inherit" onClick={() => props.logout()}>Logout</Button>
+                <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={() => props.logout()}>Logout</Button>
               </>
               :              
               <>
-                <Button color="inherit" onClick={() => handleClick('/registration')}>Registration</Button>
-                <Button color="inherit" onClick={() => handleClick('/login')}>Login</Button>
+                <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={() => handleClick('/registration')}>Registration</Button>
+                <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={() => handleClick('/login')}>Login</Button>
               </>
             }
           </Router>

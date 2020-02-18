@@ -4,12 +4,16 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const config = require('./config/config');
 const authRoutes = require('./api/auth');
+const categoryRoutes = require('./api/category');
+const incomeRoutes = require('./api/financialHistory');
 const app = express();
 
-passport.initialize();
+app.use(passport.initialize());
 require('./middleware/passport.js')(passport);
 
 app.use('/api/auth', authRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/financialHistory', incomeRoutes);
 app.use(express.static(path.join(__dirname, '/public'))); //path statics
 app.use(express.json());
 app.use(express.urlencoded({extended: false})); 
@@ -21,7 +25,8 @@ const PORT = process.env.PORT || config.PORT;
         mongoose.connect(config.mongoURL,
         {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            findByIdAndUpdate: true
         });
         const db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
