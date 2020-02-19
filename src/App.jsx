@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import NavTabs from './components/NavTabs';
 import Registration from './components/Auth/Registration';
 import Authorization from './components/Auth/Authorization';
+import List from './components/List'
 import {autoLogin} from "./actions/auth";
 
 class App extends React.Component{
@@ -20,14 +21,14 @@ class App extends React.Component{
         {
           this.props.isAuth ?
           <>
-            <Route path='/' exact component={() => <p>page</p>}/>
+            <Route path='/' exact component={List}/>
             <Redirect to='/'/>
           </> 
           : 
           <>
             <Route path='/login' component={Authorization}/>
             <Route path='/registration' component={Registration}/>
-            <Redirect to='/registration'/>
+            <Redirect to='/login'/>
           </>     
         }
         </Switch>
