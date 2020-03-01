@@ -6,7 +6,6 @@ const models = require('../models/User');
 router.use(express.json());
 router.use(express.urlencoded({extended: false})); 
 
-router.post('/addCategorysOfIncome', passport.authenticate('jwt', {session: false}), models.addCategorysOfIncome);
-router.post('/addCategorysOfExpenses', passport.authenticate('jwt', {session: false}), models.addCategorysOfExpenses);
+router.post('/addCategorys', passport.authenticate('jwt', {session: false}), models.addCategorys);
 
 module.exports = router;

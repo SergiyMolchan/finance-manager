@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import parseDateToStr from '../tools/parseDateToStr';
 import {getList} from '../actions/getFinancialHistory';
+import AddHystoryElem from './AddHystoryElem/AddHystoryElem';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -65,7 +66,6 @@ function ListItem(props){
                 <Typography className={props.type === 'income' ? classes.income : classes.expenses} variant="h6">{props.type === 'income' ? ' +' : ' -'}{props.amount}</Typography>
                 <form className={classes.container} noValidate>
                     <TextField
-                        id="date"
                         disabled
                         type="date"
                         defaultValue={parseDateToStr(props.date)}
@@ -89,6 +89,7 @@ class List extends React.Component{
         return this.props.loading ?
             <LinearProgress/>
         :
+        <>
             <Card style={{minWidth: 275, margin: '20px 0px', padding: '20px 0px'}}>
                 {
                     this.props.hystoryList.length === 0 ?
@@ -106,6 +107,8 @@ class List extends React.Component{
                   )
                 }
             </Card>
+            <AddHystoryElem/>
+        </>
         }
 }
 

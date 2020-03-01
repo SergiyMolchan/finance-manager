@@ -29,7 +29,7 @@ export const maxLengthCreator = maxLength => value => {
     return undefined;
 }
 
-export const repeatPasswordCreator = (password, repeatPassword) => () =>{
+export const repeatPasswordCreator = (password, repeatPassword) => () => {
     if(password !== repeatPassword) return `Passwords do not match. `;
     return undefined;
 }

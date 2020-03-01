@@ -18,19 +18,11 @@ const UserSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    categorysOfIncome: [{
+    categorys: [{
         name: {
             type: String,
         },
-        icon: {
-            type: String,
-        }
-    }],
-    categorysOfExpenses: [{
-        name: {
-            type: String,
-        },
-        icon: {
+        type: {
             type: String,
         }
     }],
@@ -90,19 +82,10 @@ module.exports.login = async (req, res) => {
     }
 }
 
-module.exports.addCategorysOfIncome = async (req, res) => {
+module.exports.addCategorys = async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate({_id: req.user.id}, {$push: {categorysOfIncome: {name: req.body.name, icon: req.body.icon}}});
-        res.status(200).json(user.categorysOfIncome);
-    } catch (error) {
-        errorHandler(res, error);  
-    }
-}
-
-module.exports.addCategorysOfExpenses = async (req, res) => {
-    try {
-        const user = await User.findByIdAndUpdate({_id: req.user.id}, {$push: {categorysOfExpenses: {name: req.body.name, icon: req.body.icon}}});
-        res.status(200).json(user.categorysOfExpenses);
+        const user = await User.findByIdAndUpdate({_id: req.user.id}, {$push: {categorys: {name: req.body.name, type: req.body.type}}}, {new: true});
+        res.status(200).json({success: true, categorys: user.categorys});
     } catch (error) {
         errorHandler(res, error);  
     }

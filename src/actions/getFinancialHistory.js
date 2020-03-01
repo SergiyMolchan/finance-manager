@@ -11,18 +11,17 @@ export function getList(){
                     'Content-Type': 'application/json',
                     'Authorization': localStorage.getItem('jwt-token')
                 },
-              });
-              const json = await res.json();
-              if(res.status === 200){
-                  dispatch(get_list_succes(json.financialhistory));
-                  console.info(json.message)
-              }
-              if(res.status === 409){
-                  dispatch(get_list_error(json.message));
-              }
+            });
+                const json = await res.json();
+                if(res.status === 200){
+                    dispatch(get_list_succes(json.financialhistory.reverse()));
+                }
+                if(res.status === 409){
+                    dispatch(get_list_error(json.message));
+                }
         } catch (error) {
-              dispatch(get_list_error(error));
-              console.error(error);
+                dispatch(get_list_error(error));
+                console.error(error);
         }
     }
 }
