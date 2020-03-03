@@ -5,48 +5,48 @@ import NavTabs from './components/NavTabs';
 import Registration from './components/Auth/Registration';
 import Authorization from './components/Auth/Authorization';
 import List from './components/List'
-import {autoLogin} from "./actions/auth";
+import {autoLogin} from './actions/auth';
 
 class App extends React.Component{
 
-  componentDidMount(){
-    this.props.autoLogin();
-  }
+    componentDidMount(){
+        this.props.autoLogin();
+    }
 
-  render(){
-    return(
-      <BrowserRouter>
-        <NavTabs/>
-        <Switch>
-        {
-          this.props.isAuth ?
-          <>
-            <Route path='/' exact component={List}/>
-            <Redirect to='/'/>
-          </> 
-          : 
-          <>
-            <Route path='/login' component={Authorization}/>
-            <Route path='/registration' component={Registration}/>
-            <Redirect to='/login'/>
-          </>     
-        }
-        </Switch>
-      </BrowserRouter>
-    )
-  }
+    render(){
+        return(
+            <BrowserRouter>
+                <NavTabs/>
+                <Switch>
+                {
+                    this.props.isAuth ?
+                    <>
+                        <Route path='/' exact component={List}/>
+                        <Redirect to='/'/>
+                    </> 
+                    : 
+                    <>
+                        <Route path='/login' component={Authorization}/>
+                        <Route path='/registration' component={Registration}/>
+                        <Redirect to='/login'/>
+                    </>     
+                }
+              </Switch>
+            </BrowserRouter>
+        )
+    }
 }
 
 function mapStateToProps(state){
-  return{
-    isAuth: !!state.auth.token,
-  }
+    return{
+        isAuth: !!state.auth.token,
+    }
 }
 
 function mapDispatchToProps(dispatch){
-  return{
-    autoLogin: () => dispatch(autoLogin())
-  }
+    return{
+        autoLogin: () => dispatch(autoLogin())
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -90,3 +90,12 @@ module.exports.addCategorys = async (req, res) => {
         errorHandler(res, error);  
     }
 }
+
+module.exports.getCategorys = async (req, res) => {
+    try {
+        const user = await User.findById({_id: req.user.id});
+        res.status(200).json({success: true, categorys: user.categorys});
+    } catch (error) {
+        errorHandler(res, error);  
+    }
+}

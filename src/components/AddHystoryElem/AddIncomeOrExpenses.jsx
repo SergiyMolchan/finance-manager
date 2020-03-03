@@ -28,16 +28,18 @@ const useStyles = makeStyles(
         },
     }));
 
-function AddElem(props){
+function AddIncomeOrExpenses(props){
     const classes = useStyles();
 
-    const handleChange = e => {
+    const handleChangeIncomeOrExpenses = e => {
         setIncomeOrExpenses(e.target.value);
+        setCategory('');
     };
 
     const [incomeOrExpenses = 'expenses', setIncomeOrExpenses] = React.useState();
     const [description = '', setDescription] = useState(); 
     const [amount =  0, setAmount] = useState();
+    const [category = '', setCategory] = useState();
     const [isTouchedDescription = false, TouchDescription] = useState();
     const [isTouchedAmount = false, TouchAmount] = useState();
     const maxLengthField15 =  maxLengthCreator(15);
@@ -80,7 +82,7 @@ function AddElem(props){
                     fullWidth
                     className={classes.margin}
                     value={incomeOrExpenses}
-                    onChange={handleChange}
+                    onChange={handleChangeIncomeOrExpenses}
                 >
                     <MenuItem value='expenses'>Expenses</MenuItem>
                     <MenuItem value='income'>Income</MenuItem>
@@ -89,10 +91,17 @@ function AddElem(props){
                 <Select
                     fullWidth
                     className={classes.margin}
-                    value={'category'}
-                    onChange={() => console.log('set category')}
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}
                 >
-                    <MenuItem value='category'>category</MenuItem>
+                    {
+                        props.categorys.map(item =>
+                            item.type === incomeOrExpenses ?
+                            <MenuItem key={`${item.name}-${item.type}`} value={item.name}>{item.name}</MenuItem>
+                            :
+                            false
+                        )
+                    }
                 </Select>
 
                 <Button
@@ -114,7 +123,7 @@ function AddElem(props){
 
 function mapStateToProps(state){
     return{
-  
+        categorys: state.categorys.categorys
     }
 }
   
@@ -124,4 +133,4 @@ function mapDispatchToProps(dispatch){
     }
 }
   
-export default connect(mapStateToProps, mapDispatchToProps)(AddElem);
+export default connect(mapStateToProps, mapDispatchToProps)(AddIncomeOrExpenses);

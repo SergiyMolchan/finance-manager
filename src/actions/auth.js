@@ -6,28 +6,28 @@ export function Authorization(login, password){
         const url = '/api/auth/login';
         const data = {login, password};
         try {
-          const res = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          });
-          const json = await res.json();
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const json = await res.json();
           
-          if(res.status === 200){
-            const expirationDate = new Date(new Date().getTime() + json.timeLifeOfToken * 1000);
-            localStorage.setItem('jwt-token', json.token);
-            localStorage.setItem('expirationDate', expirationDate);
-            dispatch(auth_saccess(json.token));
-            dispatch(autoLogout(json.timeLifeOfToken));
-            dispatch(auth_error(null));
-          }
-          if(res.status === 401){
-              dispatch(auth_error(json.message));
-          }
+            if(res.status === 200){
+                const expirationDate = new Date(new Date().getTime() + json.timeLifeOfToken * 1000);
+                localStorage.setItem('jwt-token', json.token);
+                localStorage.setItem('expirationDate', expirationDate);
+                dispatch(auth_saccess(json.token));
+                dispatch(autoLogout(json.timeLifeOfToken));
+                dispatch(auth_error(null));
+            }
+            if(res.status === 401 || res.status === 404){
+                dispatch(auth_error(json.message));
+            }
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
     }
 }

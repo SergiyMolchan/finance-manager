@@ -6,15 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import parseDateToStr from '../tools/parseDateToStr';
-import {getList} from '../actions/getFinancialHistory';
 import AddHystoryElem from './AddHystoryElem/AddHystoryElem';
+import {getList} from '../actions/getFinancialHistory';
+import {getCategorys} from '../actions/getCategorys';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        minWidth: 275,
-        margin: '20px 0px',
-        padding: '20px 0px'
-    },
     bullet: {
         display: 'inline-block',
         margin: '0 2px',
@@ -83,6 +79,7 @@ class List extends React.Component{
 
     componentDidMount(){
         this.props.getList();
+        this.props.getCategorys();
     }
 
     render(){
@@ -104,18 +101,18 @@ class List extends React.Component{
                           description={item.description}
                           category={item.category}
                       />
-                  )
+                    )
                 }
             </Card>
             <AddHystoryElem/>
         </>
-        }
+    }
 }
 
 
 function mapStateToProps(state){
     return{
-        loading: state.financialHistory.loading,
+        loading:  -1 !== [state.financialHistory.loading, state.categorys.loading].indexOf(true),
         hystoryList: state.financialHistory.hystoryList,
         error: state.financialHistory.error
     }
@@ -123,7 +120,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return{
-        getList: () => dispatch(getList())
+        getList: () => dispatch(getList()),
+        getCategorys: () => dispatch(getCategorys())
     }
 }
 

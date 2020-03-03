@@ -11,7 +11,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import AddElem from './AddElem';
+import AddIncomeOrExpenses from './AddIncomeOrExpenses';
 import AddCategory from './AddCategory';
 
 function TabPanel(props) {
@@ -104,7 +104,7 @@ export default function AddHystoryElem() {
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
-                    <AddElem/>
+                    <AddIncomeOrExpenses/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <AddCategory/>
