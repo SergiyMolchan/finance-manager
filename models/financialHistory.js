@@ -54,7 +54,8 @@ module.exports.addFinancialHistoryItem = async (req, res) => {
                 date: new Date().getTime()
             });
             await financialhistory.save();
-            res.status(200).json({success: true, financialhistory});
+            const financialhistoryList = await financialHistory.find({user: req.user.id});
+            res.status(200).json({success: true, financialhistory: financialhistoryList});
         }
     } catch (error) {
         errorHandler(res, error);

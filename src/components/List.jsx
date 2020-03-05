@@ -48,7 +48,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
 function ListItem(props){
     const classes = useStyles();
 
@@ -89,19 +88,19 @@ class List extends React.Component{
         <>
             <Card style={{minWidth: 275, margin: '20px 0px', padding: '20px 0px'}}>
                 {
-                    this.props.hystoryList.length === 0 ?
-                        <Typography style={{textAlign: 'center'}} variant='body1'>Your financial history is empty.</Typography>
-                    :
+                    this.props.hystoryList.length !== 0 ?
                     this.props.hystoryList.map(item => 
-                      <ListItem
-                          key={item._id} 
-                          date={item.date} 
-                          type={item.type}
-                          amount={item.amount} 
-                          description={item.description}
-                          category={item.category}
-                      />
+                        <ListItem
+                            key={item._id} 
+                            date={item.date} 
+                            type={item.type}
+                            amount={item.amount} 
+                            description={item.description}
+                            category={item.category}
+                        />
                     )
+                    :
+                    <Typography style={{textAlign: 'center'}} variant='body1'>Your financial history is empty.</Typography>
                 }
             </Card>
             <AddHystoryElem/>
@@ -112,7 +111,7 @@ class List extends React.Component{
 
 function mapStateToProps(state){
     return{
-        loading:  -1 !== [state.financialHistory.loading, state.categorys.loading].indexOf(true),
+        loading: -1 !== [state.financialHistory.loading, state.categorys.loading].indexOf(true),
         hystoryList: state.financialHistory.hystoryList,
         error: state.financialHistory.error
     }

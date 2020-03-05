@@ -6,7 +6,10 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
+import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import {validFormCreator, validFieldCreator,isRequiredFieldCreator, maxLengthCreator} from '../../tools/validators';
+import {createIncomeOrExpenses} from '../../actions/createIncomeOrExpenses';
 
 const useStyles = makeStyles(
     theme => ({
@@ -47,11 +50,14 @@ function AddIncomeOrExpenses(props){
     const isValidFieldDescription = validFieldCreator([isReqiredDescription(), maxLengthField15(description)]);
     const isReqiredAmount = isRequiredFieldCreator(amount);
     const isValidFieldAmount = validFieldCreator([isReqiredAmount(amount)]);
-    const isValidForm = validFormCreator([isValidFieldDescription(true), isValidFieldAmount(true)]);
+    const isReqiredCategory = isRequiredFieldCreator(category);
+    const isValidFieldCategory = validFieldCreator([isReqiredCategory()]);
+    const isValidForm = validFormCreator([isValidFieldDescription(true), isValidFieldAmount(true), isValidFieldCategory(true)]);
 
 
     return(
         <>
+            {props.loading === true ? <LinearProgress/> : false}
             <form className={classes.root} noValidate autoComplete="on">
                 <TextField
                     onChange={e => setDescription(e.target.value)}
@@ -105,7 +111,7 @@ function AddIncomeOrExpenses(props){
                 </Select>
 
                 <Button
-                    onClick={() => console.log(description)}
+                    onClick={() => props.createIncomeOrExpenses(category, incomeOrExpenses, amount, description)}
                     variant="contained"
                     color="primary"
                     size="small"
@@ -115,7 +121,7 @@ function AddIncomeOrExpenses(props){
                 >
                     Save
                 </Button>
-
+                {!!props.error ? <Typography variant="body1" color="error">{props.error}</Typography> : false}
             </form>
         </>
     )
@@ -123,13 +129,15 @@ function AddIncomeOrExpenses(props){
 
 function mapStateToProps(state){
     return{
-        categorys: state.categorys.categorys
+        categorys: state.categorys.categorys,
+        loading: state.financialHistory.loadingCreate,
+        error: state.financialHistory.error
     }
 }
   
 function mapDispatchToProps(dispatch){
     return{
-
+        createIncomeOrExpenses: (category, type, amount, description) => dispatch(createIncomeOrExpenses(category, type, amount, description))
     }
 }
   
