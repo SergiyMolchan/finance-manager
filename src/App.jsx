@@ -4,7 +4,10 @@ import {connect} from 'react-redux';
 import NavTabs from './components/NavTabs';
 import Registration from './components/Auth/Registration';
 import Authorization from './components/Auth/Authorization';
-import List from './components/List'
+import ListWrapper from './components/List/ListWrapper';
+import getArticlesForTheCurrentMonth from '../src/tools/getArticlesForTheCurrentMonth';
+import ListItemIncomeOrExpenses from './components/List/ListItemIncomeOrExpenses';
+import ListCategorysItem from './components/List/ListCategorysItem';
 import {autoLogin} from './actions/auth';
 
 class App extends React.Component{
@@ -20,8 +23,52 @@ class App extends React.Component{
                 <Switch>
                 {
                     this.props.isAuth ?
-                    <>
-                        <Route path='/' exact component={List}/>
+                    <>  
+                        {
+                            this.props.categorys.map(categoryItem => 
+                                <Route key={categoryItem.type + '/' + categoryItem.name} path={'/' + categoryItem.type + '/' + categoryItem.name}>
+                                    <ListWrapper>{
+                                        getArticlesForTheCurrentMonth(this.props.hystoryList)
+                                        .filter(hystoryListItem => hystoryListItem.type === categoryItem.type && hystoryListItem.category === categoryItem.name)
+                                        .map(item => 
+                                            <ListItemIncomeOrExpenses
+                                                key={item._id} 
+                                                date={item.date} 
+                                                type={item.type}
+                                                amount={item.amount} 
+                                                description={item.description}
+                                                category={item.category}
+                                            />
+                                        )
+                                    }</ListWrapper>
+                                </Route>
+                            )
+                        }
+                        <Route path='/categorys'>
+                            <ListWrapper>{
+                                this.props.categorys.map(item => 
+                                    <ListCategorysItem
+                                        key={item._id}
+                                        name={item.name}
+                                        type={item.type}
+                                    /> 
+                                )
+                            }</ListWrapper>
+                        </Route>
+                        <Route path='/' exact>
+                            <ListWrapper>{
+                                this.props.hystoryList.map(item => 
+                                    <ListItemIncomeOrExpenses
+                                        key={item._id} 
+                                        date={item.date} 
+                                        type={item.type}
+                                        amount={item.amount} 
+                                        description={item.description}
+                                        category={item.category}
+                                    />
+                                )
+                            }</ListWrapper>
+                        </Route>
                         <Redirect to='/'/>
                     </> 
                     : 
@@ -40,12 +87,15 @@ class App extends React.Component{
 function mapStateToProps(state){
     return{
         isAuth: !!state.auth.token,
+        categorys: state.categorys.categorys,
+        hystoryList: state.financialHistory.hystoryList,
+        error: state.financialHistory.error
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        autoLogin: () => dispatch(autoLogin())
+        autoLogin: () => dispatch(autoLogin()),
     }
 }
 

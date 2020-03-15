@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 function NavTabs(props) {
   const classes = useStyles();
   let history = useHistory();
+  
   function handleClick(path) {
     history.push(path);
   }
@@ -38,6 +39,7 @@ function NavTabs(props) {
             {
               props.isAuth ?
               <>
+                <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={() => handleClick('/categorys')}>Categorys</Button>
                 <Button variant="outlined" className={classes.menuButton} color="inherit" onClick={() => props.logout()}>Logout</Button>
               </>
               :              

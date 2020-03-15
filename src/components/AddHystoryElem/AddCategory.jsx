@@ -101,5 +101,5 @@ function mapDispatchToProps(dispatch){
         createCategory: (name, type) => dispatch(createCategory(name, type))
     }
 }
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(AddCategory);
