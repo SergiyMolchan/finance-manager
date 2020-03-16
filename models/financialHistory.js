@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const errorHandler = require('../utils/errorHandler');
+const currentMonth = require('../utils/currentMonth');
 const Schema = mongoose.Schema;
 
 const financialHistorySchema = new Schema({
@@ -22,13 +23,21 @@ const financialHistorySchema = new Schema({
         type: Number
     }
 });
-
 const financialHistory = module.exports = mongoose.model('financialHistory', financialHistorySchema);
+
+module.exports.getFinancialHistoryByCurrentMonth = async (req, res) => {
+    try {
+        const financialhistory = await financialHistory.find({user: req.user.id, date: {$gt: currentMonth.getCurrentMonth()}}).sort({date: -1});
+        res.status(200).json({success: true, financialhistory: financialhistory});
+    } catch (error) {
+        errorHandler(res, error);
+    }
+}
 
 module.exports.getFinancialHistory = async (req, res) => {
     try {
-        const financialhistory = await financialHistory.find({user: req.user.id});
-        res.status(200).json({success: true, financialhistory});
+        const financialhistory = await financialHistory.find({user: req.user.id}).sort({date: -1});
+        res.status(200).json({success: true, financialhistory: financialhistory});
     } catch (error) {
         errorHandler(res, error);
     }
@@ -54,7 +63,7 @@ module.exports.addFinancialHistoryItem = async (req, res) => {
                 date: new Date().getTime()
             });
             await financialhistory.save();
-            const financialhistoryList = await financialHistory.find({user: req.user.id});
+            const financialhistoryList = await financialHistory.find({user: req.user.id, date: {$gt: currentMonth.getCurrentMonth()}}).sort({date: -1});
             res.status(200).json({success: true, financialhistory: financialhistoryList});
         }
     } catch (error) {

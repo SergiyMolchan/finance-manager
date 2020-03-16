@@ -16,7 +16,7 @@ export function createIncomeOrExpenses(category, type, amount, description){
             });
             const json = await res.json();
             if(res.status === 200){
-                dispatch(create_incomeOrExpenses_success(json.financialhistory.reverse()));
+                dispatch(create_incomeOrExpenses_success(json.financialhistory));
             }
             if(res.status === 409){
                 dispatch(create_incomeOrExpenses_error(json.message));

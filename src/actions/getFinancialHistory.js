@@ -1,8 +1,8 @@
 import {GET_LIST_START, GET_LIST_SUCCESS, GET_LIST_ERROR} from './actionsTypes';
 
-export function getList(){
+export function getList(getAll = false){
     return async dispatch => {
-        const url = '/api/financialHistory/getFinancialHistory';
+            const url = getAll ? '/api/financialHistory/getFinancialHistory' : '/api/financialHistory/getFinancialHistoryByCurrentMonth';
         dispatch(get_list_start());
         try {
             const res = await fetch(url, {
@@ -14,14 +14,14 @@ export function getList(){
             });
                 const json = await res.json();
                 if(res.status === 200){
-                    dispatch(get_list_succes(json.financialhistory.reverse()));
+                    dispatch(get_list_succes(json.financialhistory));
                 }
                 if(res.status === 409){
                     dispatch(get_list_error(json.message));
                 }
         } catch (error) {
-                dispatch(get_list_error(error));
-                console.error(error);
+            dispatch(get_list_error(error));
+            console.error(error);
         }
     }
 }

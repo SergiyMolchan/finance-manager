@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ListIcon from '@material-ui/icons/List';
+import Button from '@material-ui/core/Button';
 import AddHystoryElem from '../AddHystoryElem/AddHystoryElem';
 import {getList} from '../../actions/getFinancialHistory';
 import {getCategorys} from '../../actions/getCategorys';
@@ -31,6 +33,16 @@ class ListWrapper extends React.Component{
                 }
             </Card>
             <AddHystoryElem/>
+            <div style={{display: 'flex', justifyContent: 'center', width: '100%', margin: '15px 0px'}}>
+                <Button
+                    onClick={() => this.props.getList(true)}
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<ListIcon />}
+                >
+                    Download the entire list
+                </Button>
+            </div>
         </>
     }
 }
@@ -46,7 +58,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return{
-        getList: () => dispatch(getList()),
+        getList: (getAll) => dispatch(getList(getAll)),
         getCategorys: () => dispatch(getCategorys())
     }
 }

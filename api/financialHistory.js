@@ -8,5 +8,5 @@ router.use(express.urlencoded({extended: false}));
 
 router.post('/addFinancialHistoryItem', passport.authenticate('jwt', {session: false}), models.addFinancialHistoryItem);
 router.get('/getFinancialHistory', passport.authenticate('jwt', {session: false}), models.getFinancialHistory);
-
+router.get('/getFinancialHistoryByCurrentMonth', passport.authenticate('jwt', {session: false}), models.getFinancialHistoryByCurrentMonth);
 module.exports = router;
