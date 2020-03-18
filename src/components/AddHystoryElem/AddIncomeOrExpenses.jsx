@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -140,5 +141,16 @@ function mapDispatchToProps(dispatch){
         createIncomeOrExpenses: (category, type, amount, description) => dispatch(createIncomeOrExpenses(category, type, amount, description))
     }
 }
-  
+
+AddIncomeOrExpenses.propTypes = {
+    loading: PropTypes.bool,
+    categorys: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.string
+    })),
+    error: PropTypes.string,
+    createIncomeOrExpenses: PropTypes.func,
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(AddIncomeOrExpenses);

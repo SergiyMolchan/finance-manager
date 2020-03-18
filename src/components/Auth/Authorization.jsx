@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -130,16 +131,22 @@ function Auth(props) {
 }
 
 function mapStateToProps(state){
-  return{
-    error: state.auth.error,
-    loading: state.auth.loading
-  }
+    return{
+        error: state.auth.error,
+        loading: state.auth.loading
+    }
 }
 
 function mapDispatchToProps(dispatch){
-  return{
-    Authorization: (login, password) => dispatch(Authorization(login, password)),
-  }
+    return{
+        Authorization: (login, password) => dispatch(Authorization(login, password)),
+    }
+}
+
+Auth.propTypes = {
+    loading: PropTypes.bool,
+    error: PropTypes.string,
+    Authorization: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

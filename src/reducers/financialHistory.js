@@ -11,15 +11,15 @@ export default function financialHistory(state = initialStete, action){
     switch(action.type){
         case GET_LIST_START:
             return {
-                ...state, loading: true
+                ...state, loading: action.loading
             }
         case GET_LIST_SUCCESS:
             return {
-                ...state, loading: false, hystoryList: action.hystoryList
+                ...state, loading: action.loading, hystoryList: action.hystoryList
             }
         case GET_LIST_ERROR:
             return {
-                ...state, loading: false, error: action.error
+                ...state, loading: action.loading, error: action.error
             }
         case CREATE_INCOME_OR_EXPENSES_ITEM_START:
             return {

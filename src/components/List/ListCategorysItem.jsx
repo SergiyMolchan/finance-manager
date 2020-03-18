@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
         width: 140,
     },
     listItem: {
+        transition: '0.15s',
         width: '100%',
         padding: '10px 15px',
         borderBottom: '1px solid silver',
@@ -72,15 +73,25 @@ function ListCategorysItem(props){
     )
 }
 
-ListCategorysItem.propTypes = {
-    name: PropTypes.string,
-    type: PropTypes.string
-}
-
 function mapStateToProps(state){
     return{
         hystoryList: state.financialHistory.hystoryList,
     }
+}
+
+ListCategorysItem.propTypes = {
+    name: PropTypes.string,
+    type: PropTypes.string,
+    hystoryList: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        user: PropTypes.string,
+        category: PropTypes.string,
+        type: PropTypes.string,
+        amount: PropTypes.number,
+        description: PropTypes.string,
+        date: PropTypes.number,
+        __v: PropTypes.number,
+    })),
 }
 
 export default connect(mapStateToProps)(ListCategorysItem);

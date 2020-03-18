@@ -4,17 +4,18 @@ import {connect} from 'react-redux';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import ListIcon from '@material-ui/icons/List';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import Button from '@material-ui/core/Button';
 import AddHystoryElem from '../AddHystoryElem/AddHystoryElem';
-import {getList} from '../../actions/getFinancialHistory';
+import {getListOfCurrentMonth} from '../../actions/getListOfCurrentMonth';
+import {getListAll} from '../../actions/getListAll';
 import {getCategorys} from '../../actions/getCategorys';
 
 class ListWrapper extends React.Component{
 
     componentDidMount(){
         if(this.props.categorys.length === 0 && this.props.hystoryList.length === 0){
-            this.props.getList();
+            this.props.getListOfCurrentMonth();
             this.props.getCategorys();
         }
     }
@@ -35,10 +36,10 @@ class ListWrapper extends React.Component{
             <AddHystoryElem/>
             <div style={{display: 'flex', justifyContent: 'center', width: '100%', margin: '15px 0px'}}>
                 <Button
-                    onClick={() => this.props.getList(true)}
+                    onClick={() => this.props.getListAll()}
                     variant="outlined"
                     color="primary"
-                    startIcon={<ListIcon />}
+                    startIcon={<GetAppIcon />}
                 >
                     Download the entire list
                 </Button>
@@ -58,9 +59,34 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return{
-        getList: (getAll) => dispatch(getList(getAll)),
-        getCategorys: () => dispatch(getCategorys())
+        getListOfCurrentMonth: (getAll) => dispatch(getListOfCurrentMonth(getAll)),
+        getCategorys: () => dispatch(getCategorys()),
+        getListAll: () => dispatch(getListAll())
     }
+}
+
+ListWrapper.propTypes = {
+    loading: PropTypes.bool,
+    hystoryList: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        user: PropTypes.string,
+        category: PropTypes.string,
+        type: PropTypes.string,
+        amount: PropTypes.number,
+        description: PropTypes.string,
+        date: PropTypes.number,
+        __v: PropTypes.number,
+    })),
+    categorys: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.string
+    })),
+    error: PropTypes.string,
+    getListOfCurrentMonth: PropTypes.func,
+    getCategorys: PropTypes.func,
+    getListAll: PropTypes.func,
+    children: PropTypes.arrayOf(PropTypes.element)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListWrapper);

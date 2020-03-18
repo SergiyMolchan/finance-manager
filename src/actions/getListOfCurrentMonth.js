@@ -1,8 +1,8 @@
 import {GET_LIST_START, GET_LIST_SUCCESS, GET_LIST_ERROR} from './actionsTypes';
 
-export function getList(getAll = false){
+export function getListOfCurrentMonth(){
     return async dispatch => {
-            const url = getAll ? '/api/financialHistory/getFinancialHistory' : '/api/financialHistory/getFinancialHistoryByCurrentMonth';
+            const url = '/api/financialHistory/getFinancialHistoryByCurrentMonth';
         dispatch(get_list_start());
         try {
             const res = await fetch(url, {
@@ -28,20 +28,23 @@ export function getList(getAll = false){
 
 export function get_list_start(){
     return{
-        type: GET_LIST_START
+        type: GET_LIST_START,
+        loading: true
     }
 }
 
 export function get_list_succes(list){
     return{
         type: GET_LIST_SUCCESS,
-        hystoryList: list
+        hystoryList: list,
+        loading: false
     }
 }
 
 export function get_list_error(error){
     return{
         type: GET_LIST_ERROR,
-        error: error
+        error: error,
+        loading: false
     }
 }

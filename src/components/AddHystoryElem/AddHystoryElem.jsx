@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function AddHystoryElem() {
+function AddHystoryElem() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -115,3 +115,5 @@ export default function AddHystoryElem() {
     </div>
     );
 }
+
+export default AddHystoryElem;

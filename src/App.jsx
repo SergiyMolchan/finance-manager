@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import NavTabs from './components/NavTabs';
@@ -97,6 +98,27 @@ function mapDispatchToProps(dispatch){
     return{
         autoLogin: () => dispatch(autoLogin()),
     }
+}
+
+App.propTypes = {
+    isAuth: PropTypes.bool,
+    hystoryList: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        user: PropTypes.string,
+        category: PropTypes.string,
+        type: PropTypes.string,
+        amount: PropTypes.number,
+        description: PropTypes.string,
+        date: PropTypes.number,
+        __v: PropTypes.number,
+    })),
+    categorys: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.string
+    })),
+    error: PropTypes.string,
+    autoLogin: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

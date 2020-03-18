@@ -11,35 +11,35 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(
-  theme => ({
-    root: {
-      minWidth: 275,
-      maxWidth: 760,
-      width: '100%',
-      textAlign: 'center',
-      margin: '0px 10px',
-      padding: '10px 0px'
-    },
-    wrapper: {
-      width: '100%',
-      padding: '50px 0px',
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    margin: {
-      margin: theme.spacing(1),
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
+    theme => ({
+        root: {
+            minWidth: 275,
+            maxWidth: 760,
+            width: '100%',
+            textAlign: 'center',
+            margin: '0px 10px',
+            padding: '10px 0px'
+        },
+        wrapper: {
+            width: '100%',
+            padding: '50px 0px',
+            display: 'flex',
+            justifyContent: 'center',
+        },
+        margin: {
+            margin: theme.spacing(1),
+        },
+        bullet: {
+            display: 'inline-block',
+            margin: '0 2px',
+            transform: 'scale(0.8)',
+        },
+        title: {
+            fontSize: 14,
+        },
+        pos: {
+            marginBottom: 12,
+        },
   }));
 
 function ThunkItRegistration(props) {
@@ -68,7 +68,7 @@ function ThunkItRegistration(props) {
 }
 
 ThunkItRegistration.propTypes = {
-  onNewAccount: PropTypes.func.isRequired,
+    onNewAccount: PropTypes.func.isRequired,
 };
 
 export default ThunkItRegistration;
