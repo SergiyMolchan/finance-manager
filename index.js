@@ -14,7 +14,7 @@ require('./middleware/passport.js')(passport);
 app.use('/api/auth', authRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/financialHistory', incomeRoutes);
-app.use(express.static(path.join(__dirname, '/public'))); //path statics
+app.use(express.static(path.join(__dirname, '/build'))); //path statics
 app.use(express.json());
 app.use(express.urlencoded({extended: false})); 
 
