@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import { CSSTransition } from 'react-transition-group';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -17,37 +18,37 @@ import ThunkItRegistration from './ThunkItRegistration';
 import {validFormCreator, validFieldCreator,isRequiredFieldCreator, minLengthCreator, maxLengthCreator, repeatPasswordCreator} from '../../tools/validators';
 import {registration, registration_new} from '../../actions/registration';
 
-  const useStyles = makeStyles(
-      theme => ({
-          root: {
-              minWidth: 275,
-              maxWidth: 760,
-              width: '100%',
-              textAlign: 'center',
-              margin: '0px 10px',
-              padding: '10px 0px'
-          },
-          wrapper: {
-              width: '100%',
-              padding: '50px 0px',
-              display: 'flex',
-              justifyContent: 'center',
-          },
-          margin: {
-              margin: theme.spacing(1),
-          },
-          bullet: {
-              display: 'inline-block',
-              margin: '0 2px',
-              transform: 'scale(0.8)',
-          },
-          title: {
-              fontSize: 14,
-          },
-          pos: {
-              marginBottom: 12,
-          },
-    }));
+const useStyles = makeStyles(
+    theme => ({
+        root: {
+            minWidth: 275,
+            maxWidth: 760,
+            width: '100%',
+            textAlign: 'center',
+            margin: '0px 10px',
+            padding: '10px 0px'
+        },
+        wrapper: {
+            width: '100%',
+            padding: '50px 0px',
+            display: 'flex',
+            justifyContent: 'center',
+        },
+        margin: {
+            margin: theme.spacing(1),
+        },
+        bullet: {
+            display: 'inline-block',
+            margin: '0 2px',
+            transform: 'scale(0.8)',
+        },
+        title: {
+            fontSize: 14,
+        },
+        pos: {
+            marginBottom: 12,
+        },
+}));
 
 function Registration(props) {
     const classes = useStyles();
@@ -72,7 +73,7 @@ function Registration(props) {
     if(props.registered){
       return <ThunkItRegistration onNewAccount={() => props.newRegistration()}/>
     } else {
-    return (
+        return(
         <div className={classes.wrapper}>
             <Card className={classes.root}>
                 <CardHeader
@@ -102,43 +103,43 @@ function Registration(props) {
                         />
 
                         <TextField
-                          onChange={e => setPassword(e.target.value)}
-                          onBlur={() => TouchPassword(true)}
-                          value={password}
-                          helperText={isTouchedPassword === true ? validFieldPassword() : false}
-                          error={isTouchedPassword === true ? validFieldPassword(true) : false}
-                          fullWidth
-                          required 
-                          className={classes.margin}
-                          label="Password" 
-                          type="password" 
-                          InputProps={{
-                              startAdornment: (
-                                  <InputAdornment position="start">
-                                      <LockIcon />
-                                  </InputAdornment>
-                              ),
-                          }}
+                            onChange={e => setPassword(e.target.value)}
+                            onBlur={() => TouchPassword(true)}
+                            value={password}
+                            helperText={isTouchedPassword === true ? validFieldPassword() : false}
+                            error={isTouchedPassword === true ? validFieldPassword(true) : false}
+                            fullWidth
+                            required 
+                            className={classes.margin}
+                            label="Password" 
+                            type="password" 
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <LockIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
 
                         <TextField
-                          onChange={e => setRepearPassword(e.target.value)}
-                          onBlur={() => TouchRepeatPassword(true)}
-                          value={repeatPassword}
-                          helperText={isTouchedRepeatPassword === true ? validFieldRepeatPassword() : false}
-                          error={isTouchedRepeatPassword === true ? validFieldRepeatPassword(true) : false}
-                          fullWidth
-                          required 
-                          className={classes.margin}
-                          label="Repeat password" 
-                          type="password" 
-                          InputProps={{
-                              startAdornment: (
-                                  <InputAdornment position="start">
-                                      <LockIcon />
-                                  </InputAdornment>
-                              ),
-                          }}
+                            onChange={e => setRepearPassword(e.target.value)}
+                            onBlur={() => TouchRepeatPassword(true)}
+                            value={repeatPassword}
+                            helperText={isTouchedRepeatPassword === true ? validFieldRepeatPassword() : false}
+                            error={isTouchedRepeatPassword === true ? validFieldRepeatPassword(true) : false}
+                            fullWidth
+                            required 
+                            className={classes.margin}
+                            label="Repeat password" 
+                            type="password" 
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <LockIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
 
                         <Button

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, Redirect,} from 'react-router-dom';
 import {connect} from 'react-redux';
 import NavTabs from './components/NavTabs';
 import Registration from './components/Auth/Registration';
@@ -27,7 +27,7 @@ class App extends React.Component{
                     <>  
                         {
                             this.props.categorys.map(categoryItem => 
-                                <Route key={categoryItem.type + '/' + categoryItem.name} path={'/' + categoryItem.type + '/' + categoryItem.name}>
+                                <Route exact key={categoryItem.type + '/' + categoryItem.name} path={'/' + categoryItem.type + '/' + categoryItem.name}>
                                     <ListWrapper>{
                                         getArticlesForTheCurrentMonth(this.props.hystoryList)
                                         .filter(hystoryListItem => hystoryListItem.type === categoryItem.type && hystoryListItem.category === categoryItem.name)
@@ -39,34 +39,34 @@ class App extends React.Component{
                                                 amount={item.amount} 
                                                 description={item.description}
                                                 category={item.category}
-                                            />
+                                                />
                                         )
                                     }</ListWrapper>
                                 </Route>
                             )
                         }
-                        <Route path='/categorys'>
+                        <Route path='/categorys' exact>
                             <ListWrapper>{
                                 this.props.categorys.map(item => 
                                     <ListCategorysItem
-                                        key={item._id}
-                                        name={item.name}
-                                        type={item.type}
+                                    key={item._id}
+                                    name={item.name}
+                                    type={item.type}
                                     /> 
-                                )
+                                    )
                             }</ListWrapper>
                         </Route>
                         <Route path='/' exact>
                             <ListWrapper>{
                                 this.props.hystoryList.map(item => 
                                     <ListItemIncomeOrExpenses
-                                        key={item._id} 
-                                        date={item.date} 
-                                        type={item.type}
-                                        amount={item.amount} 
-                                        description={item.description}
-                                        category={item.category}
-                                    />
+                                    key={item._id} 
+                                    date={item.date} 
+                                    type={item.type}
+                                    amount={item.amount} 
+                                    description={item.description}
+                                    category={item.category}
+                                />
                                 )
                             }</ListWrapper>
                         </Route>
@@ -79,7 +79,7 @@ class App extends React.Component{
                         <Redirect to='/login'/>
                     </>     
                 }
-              </Switch>
+                </Switch>
             </BrowserRouter>
         )
     }
@@ -117,7 +117,7 @@ App.propTypes = {
         name: PropTypes.string,
         type: PropTypes.string
     })),
-    error: PropTypes.string,
+    error: PropTypes.object,
     autoLogin: PropTypes.func,
 }
 
