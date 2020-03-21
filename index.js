@@ -42,6 +42,6 @@ const PORT = process.env.PORT || config.PORT;
     }
 })();
 
-app.get('/', (req, res) => {
-    res.render('index.html');
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve('public', 'index.html'));
 });

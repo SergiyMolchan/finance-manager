@@ -4,11 +4,8 @@ import {connect} from 'react-redux';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import Button from '@material-ui/core/Button';
 import AddHystoryElem from '../AddHystoryElem/AddHystoryElem';
 import {getListOfCurrentMonth} from '../../actions/getListOfCurrentMonth';
-import {getListAll} from '../../actions/getListAll';
 import {getCategorys} from '../../actions/getCategorys';
 
 class ListWrapper extends React.Component{
@@ -34,16 +31,6 @@ class ListWrapper extends React.Component{
                 }
             </Card>
             <AddHystoryElem/>
-            <div style={{display: 'flex', justifyContent: 'center', width: '100%', margin: '15px 0px'}}>
-                <Button
-                    onClick={() => this.props.getListAll()}
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<GetAppIcon />}
-                >
-                    Download the entire list
-                </Button>
-            </div>
         </>
     }
 }
@@ -61,7 +48,6 @@ function mapDispatchToProps(dispatch){
     return{
         getListOfCurrentMonth: (getAll) => dispatch(getListOfCurrentMonth(getAll)),
         getCategorys: () => dispatch(getCategorys()),
-        getListAll: () => dispatch(getListAll())
     }
 }
 
@@ -85,7 +71,6 @@ ListWrapper.propTypes = {
     error: PropTypes.string,
     getListOfCurrentMonth: PropTypes.func,
     getCategorys: PropTypes.func,
-    getListAll: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element)
 }
 
