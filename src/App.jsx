@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route, Redirect,} from 'react-router-dom';
 import {connect} from 'react-redux';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Button from '@material-ui/core/Button';
 import NavTabs from './components/NavTabs';
 import Registration from './components/Auth/Registration';
 import Authorization from './components/Auth/Authorization';
@@ -10,6 +12,7 @@ import getArticlesForTheCurrentMonth from '../src/tools/getArticlesForTheCurrent
 import ListItemIncomeOrExpenses from './components/List/ListItemIncomeOrExpenses';
 import ListCategorysItem from './components/List/ListCategorysItem';
 import {autoLogin} from './actions/auth';
+import {getListAll} from './actions/getListAll';
 
 class App extends React.Component{
 
@@ -69,6 +72,16 @@ class App extends React.Component{
                                 />
                                 )
                             }</ListWrapper>
+                            <div style={{display: 'flex', justifyContent: 'center', width: '100%', margin: '15px 0px'}}>
+                            <Button
+                                onClick={() => this.props.getListAll()}
+                                variant="outlined"
+                                color="primary"
+                                startIcon={<GetAppIcon />}
+                            >
+                                Download the entire list
+                            </Button>
+                        </div>
                         </Route>
                         <Redirect to='/'/>
                     </> 
@@ -97,6 +110,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         autoLogin: () => dispatch(autoLogin()),
+        getListAll: () => dispatch(getListAll())
     }
 }
 
@@ -119,6 +133,7 @@ App.propTypes = {
     })),
     error: PropTypes.object,
     autoLogin: PropTypes.func,
+    getListAll: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
