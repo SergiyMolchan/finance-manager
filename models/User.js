@@ -47,8 +47,8 @@ module.exports.regitration = async (req, res) => {
             const user = new User({
                 login: req.body.login.trim(),
                 password: bcrypt.hashSync(req.body.password.trim(), salt),
-                categorysOfIncome: [],
-                categorysOfExpenses: []
+                categorysOfIncome: ['job'],
+                categorysOfExpenses: ['housing', 'food']
             });
             await user.save();
             res.status(201).json({success: true, message: "Registered."});
